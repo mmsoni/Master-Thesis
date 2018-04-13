@@ -1,0 +1,33 @@
+function[u1f2_avg, vf2_avg, wf2_avg, uvf2_avg] = lowerOrderStatistics(u1f, v1f, w1f,p1f)
+
+nj = size(u1f,1);
+ni = size(u1f,2);
+nk = size(u1f,3);
+
+u1f2 = u1f .* u1f;
+vf2 = vf .* vf;
+wf2 = wf .* wf;
+uvf2 = u1f .* vf;
+
+u1f2_avg(1:nj)=0;
+vf2_avg(1:nj)=0;
+wf2_avg(1:nj)=0;
+uvf2_avg(1:nj)=0;
+
+for j=1:nj
+    for k=1:nk
+        for i=1:ni
+           u1f2_avg(j) = u1f2_avg(j) + u1f2(j,i,k);
+           vf2_avg(j) = vf2_avg(j) + vf2(j,i,k);
+           wf2_avg(j) = wf2_avg(j) + wf2(j,i,k);
+           uvf2_avg(j) = uvf2_avg(j) + uvf2(j,i,k);
+        end
+    end
+end
+
+u1f2_avg = u1f2_avg/ni/nk;
+vf2_avg = vf2_avg/ni/nk;
+wf2_avg = wf2_avg/ni/nk;
+uvf2_avg = uvf2_avg/ni/nk;
+
+end

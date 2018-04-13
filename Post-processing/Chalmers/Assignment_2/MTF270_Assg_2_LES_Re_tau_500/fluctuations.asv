@@ -1,0 +1,16 @@
+function[] = fluctuations()
+
+uf = zeros(nj, ni, nk);
+vf = zeros(nj, ni, nk);
+wf = zeros(nj, ni, nk);
+
+for k=1:nk
+    for i=1:ni
+        for j=1:nj
+           uf(j,i,k)= u13d(j,i,k) - umean(j);
+           vf(j,i,k)= v13d(j,i,k) - vmean(j);
+           wf(j,i,k)= w13d(j,i,k) - wmean(j);
+        end
+    end
+end
+end
