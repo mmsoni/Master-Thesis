@@ -59,18 +59,44 @@ plot(y, sqrt(u1f2_avg), y, sqrt(v1f2_avg), y, sqrt(w1f2_avg))
 % figure(3)
 % plot(y, uv1f2_avg)
 % 
-% figure(4)
-% plot(y, Pk)
+figure(4)
+semilogx(yplus, Pk)
 
 %% Filtering
 
 yplus=y/nu;
 fu13d = zeros(nk,1);
-plot(x(2:97),u13d(3,:,nk/3))
-fu13d(1) = 0.25*(u13d(2) + 2*u13d(1) + u13d(nk));
-for i=2:nk-1
-    fu13d(i) = 0.25*(u13d(i+1) + 2*u13d(i) + u13d(i-1));
-end
-fu13d(nk) = 0.25*(u13d(1) + 2*u13d(nk) + u13d(nk-1));
+fu13d2 = zeros(nk,1);
+%avg_u = zeros(nk,1);
+test_u = u13d(3,:,nk/3);
+plot(x(2:97),test_u)
+% fu13d(1) = 0.25*(test_u(2) + 2*test_u(1) + test_u(nk));
+% for i=2:nk-1
+%     fu13d(i) = 0.25*(test_u(i+1) + 2*test_u(i) + test_u(i-1));
+% end
+% fu13d(nk) = 0.25*(test_u(1) + 2*test_u(nk) + test_u(nk-1));
 
-plot(x(2:97),u13d(3,:,nk/3), x(2:97),fu13d)
+fu13d(1) = 0.33*(test_u(2) + test_u(1) + test_u(nk));
+for i=2:nk-1
+    fu13d(i) = 0.33*(test_u(i+1) + test_u(i) + test_u(i-1));
+end
+fu13d(nk) = 0.33*(test_u(1) + test_u(nk) + test_u(nk-1));
+
+fu13d2(1) = 0.33*(fu13d(2) + fu13d(1) + fu13d(nk));
+for i=2:nk-1
+    fu13d2(i) = 0.33*(fu13d(i+1) + fu13d(i) + fu13d(i-1));
+end
+fu13d2(nk) = 0.33*(fu13d(1) + fu13d(nk) + fu13d(nk-1));
+
+% fu13d(1) = 0.11*(test_u(3) + test_u(2) + test_u(1) + test_u(nk) + test_u(nk-1));
+% fu13d(2) = 0.11*(test_u(4) + test_u(3) + test_u(2) + test_u(nk)+ test_u(1));
+% for i=3:nk-2
+%     fu13d(i) = 0.11*(test_u(i+2) +test_u(i+1) + test_u(i) + test_u(i-1) + test_u(i-2));
+% end
+% fu13d(nk-1) = 0.11*(test_u(1) +test_u(nk) + test_u(nk-1) + test_u(nk-2) + test_u(nk-3));
+% fu13d(nk) = 0.11*(test_u(2) + test_u(1) + test_u(nk) + test_u(nk-1) + test_u(nk-2));
+
+avg_u = mean(test_u);
+resid = test_u' - fu13d;
+plot(x(2:97),test_u,'--r', x(2:97),fu13d,'--g', x(2:97), resid,'.k', x(2:97), avg_u,'.b',  x(2:97),fu13d2,'-gx')
+% plot(x(2:97),test_u,'--r', x(2:97),fu13d2,'--g', x(2:97), resid,'.k', x(2:97), avg_u,'.b')
